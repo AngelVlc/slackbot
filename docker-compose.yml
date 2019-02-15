@@ -1,0 +1,17 @@
+version: '2.2'
+services:
+  bot:
+    build: .
+    # command: tail -F anything
+    command: bundle exec lita
+    environment:
+      - SLACK_TOKEN
+    depends_on:
+      redis:
+        condition: service_healthy
+    volumes:
+      - '.:/bot'
+  redis:
+    image: redis:5.0.3
+    healthcheck:
+      test: "exit 0"
